@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import JourneyForm from './JourneyForm';
 import FareResults from './FareResults';
@@ -25,14 +24,14 @@ const FareCalculator = () => {
   }, []);
   
   const handleCalculate = (data) => {
-    const { journeyType, tripType, fromStation, toStation, busJourneys, journeyTime } = data;
+    const { journeyType, tripType, busJourneys, journeyTime } = data;
     
     let calculationResult;
     
     if (journeyType === 'tube') {
       // Get the primary zones for the stations
-      const fromZone = getPrimaryZone(fromStation);
-      const toZone = getPrimaryZone(toStation);
+      const fromZone = getPrimaryZone(data.fromStation);
+      const toZone = getPrimaryZone(data.toStation);
       
       calculationResult = calculateTubeFare(fromZone, toZone, journeyTime);
       
@@ -42,20 +41,21 @@ const FareCalculator = () => {
         journeyType,
         tripType,
         journeyTime,
-        fromStation,
-        toStation,
-        fromZones: getStationZones(fromStation),
-        toZones: getStationZones(toStation)
+        fromStation: data.fromStation,
+        toStation: data.toStation,
+        fromZones: getStationZones(data.fromStation),
+        toZones: getStationZones(data.toStation)
       };
       
       // Save to recent searches
       saveRecentSearch({
         type: 'tube',
-        fromStation,
-        toStation,
+        fromStation: data.fromStation,
+        toStation: data.toStation,
         timestamp: new Date().toISOString()
       });
     } else {
+      // For bus fare calculation, we only need the number of journeys
       calculationResult = calculateBusFare(busJourneys);
       
       // Add additional properties to the result
@@ -74,15 +74,8 @@ const FareCalculator = () => {
       });
     }
     
-    // Update station states
-    setFromStation(fromStation);
-    setToStation(toStation);
-    
     // Update result
     setResult(calculationResult);
-    
-    // Update recent searches
-    setRecentSearches(getRecentSearches());
     
     // Show toast notification
     toast({

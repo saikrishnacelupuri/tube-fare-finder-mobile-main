@@ -12,8 +12,11 @@ const Index = () => {
             Calculate TFL fares for tube and bus journeys across London.
           </p>
         </div>
-        
+   
+
         <FareCalculator />
+     
+  
       </div>
     </AppLayout>
   );

@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -53,6 +52,9 @@ const FareResults = ({ result, onBack }) => {
     <Card className="w-full animate-slide-in glass-card">
       <CardHeader>
         <div className="flex justify-between items-center">
+          <Button variant="outline" onClick={onBack} className="mr-4">
+            Back to Search
+          </Button>
           <CardTitle className="text-xl flex items-center">
             {journeyType === 'tube' ? (
               <>
@@ -70,7 +72,9 @@ const FareResults = ({ result, onBack }) => {
             {timePeriod}
           </Badge>
         </div>
-        <CardDescription className="flex flex-col space-y-1">
+
+
+        <CardDescription className="flex flex-row space-x-2">
           <div className="flex items-center">
             <Clock className="mr-1 h-3 w-3" />
             <span>{formatTime(journeyTime)}</span>
@@ -80,6 +84,7 @@ const FareResults = ({ result, onBack }) => {
             <span>{dayType}</span>
           </div>
         </CardDescription>
+
       </CardHeader>
       
       <CardContent className="space-y-4">
